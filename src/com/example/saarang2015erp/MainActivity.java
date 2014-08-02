@@ -42,6 +42,13 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
+		SharedPreferences.Editor editor = uid.edit();
+		String token = uid.getString("uid", "text");
+		if (token != "text"){
+			Intent open = new Intent("com.example.saarang2015erp.Menu");
+			startActivity(open);
+		}
 		//tv = (TextView) findViewById(R.id.textView2);
 		etuserName = (EditText) findViewById(R.id.editText1);
 		etpassword = (EditText) findViewById(R.id.editText2);
@@ -110,7 +117,8 @@ public class MainActivity extends ActionBarActivity {
 				// "http://10.22.22.220:2004/api-token-auth/";
 				// Posting user data to script
 				Log.d("DF", "Reqeusting");
-				String LOGIN_URL = "http://10.42.0.1:8000/api-token-auth/";
+				//String LOGIN_URL = "http://10.42.0.1:8000/api-token-auth/";
+				String LOGIN_URL = "api-token-auth/";
 				JSONObject json = jsonParser.makeHttpRequest(LOGIN_URL, "POST",
 						params, null);
 
@@ -142,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
 				SharedPreferences.Editor editor = uid.edit();
 				editor.putString("uid", tx);
 				editor.commit();
-				Intent openMenu = new Intent("com.example.saarang2015erp.Pages");
+				Intent openMenu = new Intent("android.intent.action.PAGES");
 				startActivity(openMenu);
 
 			} else {

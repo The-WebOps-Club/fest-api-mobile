@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class Menu extends ActionBarActivity implements View.OnClickListener{
+public class Menu extends ActionBarActivity implements View.OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,8 +16,11 @@ public class Menu extends ActionBarActivity implements View.OnClickListener{
 		setContentView(R.layout.menu);
 		Button bPages = (Button) findViewById(R.id.button1);
 		Button bNoti = (Button) findViewById(R.id.button2);
+		Button LogOut = (Button) findViewById(R.id.button3);
 		bPages.setOnClickListener(this);
 		bNoti.setOnClickListener(this);
+		LogOut.setOnClickListener(this);
+		
 	}
 
 	@Override
@@ -28,19 +31,19 @@ public class Menu extends ActionBarActivity implements View.OnClickListener{
 			Intent i = new Intent("android.intent.action.PAGES");
 			startActivity(i);
 			break;
-		case R.id.button2:
+		case R.id.button3:
 			SharedPreferences pages = getSharedPreferences("pages",
 					MODE_PRIVATE);
+			// pages.edit().clear().commit();
 			SharedPreferences.Editor editor = pages.edit();
-			editor.putInt("pageNo", 0);
+			editor.clear();
 			editor.commit();
+			SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
+			uid.edit().clear().commit();
+			Intent mainPage = new Intent(Menu.this, MainActivity.class);
+			startActivity(mainPage);
 			break;
 		}
 	}
 
-	
-	
-	
-	
-	
 }

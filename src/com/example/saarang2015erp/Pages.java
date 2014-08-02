@@ -59,7 +59,7 @@ public class Pages extends Activity {
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			//String url = "http://10.0.2.2:80/JSON/wall.php";
-			String url = "http://10.42.0.1:8000/api/mobile/walls/";
+			String url = "api/mobile/walls/";
 			List<NameValuePair> paramse = new ArrayList<NameValuePair>();
 			paramse.add(new BasicNameValuePair("username", "userName"));
 			SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);

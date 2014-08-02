@@ -34,6 +34,6 @@
         android:layout_alignLeft="@+id/button2"
         android:layout_below="@+id/button2"
         android:layout_marginTop="38dp"
-        android:text=" Clear Data" />
+        android:text="Logout" />
 
 </RelativeLayout>

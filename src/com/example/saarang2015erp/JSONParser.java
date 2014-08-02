@@ -35,12 +35,12 @@ public class JSONParser {
     
     
     public JSONObject getJSONFromUrl(final String url) {
-
+    	String completeUrl = "http://erptest.saarang.org/" + url;
         // Making HTTP request
         try {
             // Construct the client and the HTTP request.
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
+            HttpPost httpPost = new HttpPost(completeUrl);
 
             // Execute the POST request and store the response locally.
             HttpResponse httpResponse = httpClient.execute(httpPost);
@@ -96,7 +96,7 @@ public class JSONParser {
     // by making HTTP POST or GET mehtod
     public JSONObject makeHttpRequest(String url, String method,
             List<NameValuePair> params, String token) {
- 
+    	String completeUrl = "http://erptest.saarang.org/" + url;
         // Making HTTP request
         try {
  
@@ -105,7 +105,7 @@ public class JSONParser {
                 // request method is POST
                 // defaultHttpClient
                 DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url);
+                HttpPost httpPost = new HttpPost(completeUrl);
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
  
                 HttpResponse httpResponse = httpClient.execute(httpPost);
@@ -117,7 +117,7 @@ public class JSONParser {
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
                 url += "?" + paramString;
-                HttpGet httpGet = new HttpGet(url);
+                HttpGet httpGet = new HttpGet(completeUrl);
                 
                 httpGet.setHeader("Authorization", "Token " + token);
                 HttpResponse httpResponse = httpClient.execute(httpGet);
