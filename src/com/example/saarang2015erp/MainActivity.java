@@ -187,7 +187,7 @@ public class MainActivity extends ActionBarActivity {
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
-			
+			finish();
 
 		}
 
