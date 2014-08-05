@@ -1,3 +1,3 @@
 MobOps
-Aqel Ahammda K P
+Aqel Ahammad K P
 Joe Eappen
