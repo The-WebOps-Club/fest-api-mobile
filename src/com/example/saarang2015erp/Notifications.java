@@ -11,25 +11,37 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Notifications extends Activity {
+public class Notifications extends Fragment {
 	public String not;
 	private ProgressDialog pDialog;
 
+	
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.notifications);
+		return inflater.inflate(R.layout.notifications, container, false);
+	}
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
 		new getNotifications().execute();
 
 	}
@@ -42,7 +54,7 @@ public class Notifications extends Activity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			pDialog = new ProgressDialog(Notifications.this);
+			pDialog = new ProgressDialog(getActivity());
 			pDialog.setMessage("Loading");
 			pDialog.setIndeterminate(false);
 			pDialog.setCancelable(false);
@@ -56,8 +68,9 @@ public class Notifications extends Activity {
 			String url = "api/mobile/notifications/";
 			// "api/mobile/walls/";
 			List<NameValuePair> paramse = new ArrayList<NameValuePair>();
-			paramse.add(new BasicNameValuePair("username", "userName"));
-			SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
+			paramse.add(new BasicNameValuePair("limit", "30"));
+			paramse.add(new BasicNameValuePair("offset", "0"));
+			SharedPreferences uid = getActivity().getSharedPreferences("uid", Context.MODE_PRIVATE);
 			String token = uid.getString("uid", "Aaa");
 			JSONObject json = jsonParser.makeHttpRequest(url, "GET", paramse,
 					token);
@@ -101,15 +114,15 @@ public class Notifications extends Activity {
 					descriptionArray[i] = description;
 				}
 				
-				NotificationList adapter = new NotificationList(Notifications.this, header, descriptionArray);
-				ListView list = (ListView) findViewById(R.id.listView1);
+				NotificationList adapter = new NotificationList(getActivity(), header, descriptionArray);
+				ListView list = (ListView) getView().findViewById(R.id.listView1);
 				list.setAdapter(adapter);
 				list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 		            @Override
 		            public void onItemClick(AdapterView<?> parent, View view,
 		                                    int position, long id) {
-		                Toast.makeText(Notifications.this, "You Clicked at " + header[+ position], Toast.LENGTH_SHORT).show();
+		                Toast.makeText(getActivity(), "You Clicked at " + header[+ position], Toast.LENGTH_SHORT).show();
 
 		            }
 		        });

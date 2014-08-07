@@ -9,12 +9,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -28,28 +31,16 @@ public class Pages extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pages);
-		ListView list = (ListView) findViewById(R.id.listView1);
-		SharedPreferences pages = getSharedPreferences("pages", MODE_PRIVATE);
-		int noPage = pages.getInt("pageNo", 0);
-		String[] pagesList = new String[noPage];
-		
-        
-		if (noPage != 0) {
-			for (int i = 0; i < noPage; i++) {
-				Log.d("Preferences" + i,
-						pages.getString("page_" + i, "Page Not Found"));
-				pagesList[i] = pages.getString("page_" + i, "Page Not Found");
 				
-			}
-			ArrayAdapter adapter = new ArrayAdapter<String>(Pages.this, 
-					android.R.layout.simple_list_item_1, pagesList);
-			list.setAdapter(adapter);
-		}else{
-			new loadWalls().execute();
-			
+		
+		SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
+		int i = 0;
+		String pageName = uid.getString("page_" + Integer.toString(i), "none");
+		while ( pageName != "none") {
+		Log.d("Preferences", pageName);
+		i++;
+		pageName = uid.getString("page_" + Integer.toString(i), "none");
 		}
-	
-
 	}
 
 	class loadWalls extends AsyncTask<String, String, String> {

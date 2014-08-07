@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
 	TextView tv;
 	int type = 0;
@@ -52,33 +54,22 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				new loadUser().execute();
-				// new GetWalls().execute();
 
 			}
 		});
-
+		
+		
+		
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		finish();
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	class loadUser extends AsyncTask<String, String, String> {
+		class loadUser extends AsyncTask<String, String, String> {
 
 		@Override
 		protected void onPreExecute() {
@@ -101,10 +92,9 @@ public class MainActivity extends ActionBarActivity {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("username", userName));
 				params.add(new BasicNameValuePair("password", password));
-				
+
 				// Posting user data to script
 				Log.d("DF", "Reqeusting");
-				// String LOGIN_URL = "http://10.42.0.1:8000/api-token-auth/";
 				String LOGIN_URL = "api-token-auth/";
 				JSONObject json = jsonParser.makeHttpRequest(LOGIN_URL, "POST",
 						params, null);
@@ -139,12 +129,12 @@ public class MainActivity extends ActionBarActivity {
 				editor.commit();
 				Intent openMenu = new Intent("com.example.saarang2015erp.Menu");
 				startActivity(openMenu);
-
+				new GetWalls().execute();
 			} else {
-				if (error != null) {
+				
 					Log.d("response", "Not it is");
 					tv.setVisibility(View.VISIBLE);
-				}
+				
 			}
 
 		}
@@ -170,12 +160,32 @@ public class MainActivity extends ActionBarActivity {
 
 			try {
 
-				String LOGIN_URL = "http://10.42.0.1:8000/api/mobile/walls/";
+				String LOGIN_URL = "api/mobile/walls/";
 				List<NameValuePair> params1 = new ArrayList<NameValuePair>();
-				// params.add(new BasicNameValuePair("tag", "login"));
 				params1.add(new BasicNameValuePair("usernam", "aqel"));
+				SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
+				String token = uid.getString("uid", "Aaa");
 				JSONObject json = jsonParser.makeHttpRequest(LOGIN_URL, "GET",
-						params1, null);
+						params1, token);
+				int status = json.getInt("status");
+				Log.d("Success or not?", Integer.toString(status));
+				if (status == 1) {
+					Log.d("message", "its success dude");
+					JSONArray theArray = json.getJSONArray("data");
+					SharedPreferences.Editor editor = uid.edit();
+					editor.putInt("noWalls", theArray.length());
+					for (int i = 0; i < theArray.length(); i++) {
+						JSONObject jsonInside = theArray.getJSONObject(i);
+						String name = jsonInside.getString("name");
+						int id = jsonInside.getInt("id");
+						Log.d("walls", name + Integer.toString(id));
+						editor.putString("page_" + Integer.toString(i), name);
+						editor.putInt("page_id_" + Integer.toString(i), id);
+						editor.commit();
+					}
+				}
+
+				Log.d("json", json.toString());
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -187,7 +197,6 @@ public class MainActivity extends ActionBarActivity {
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
-			finish();
 
 		}
 
