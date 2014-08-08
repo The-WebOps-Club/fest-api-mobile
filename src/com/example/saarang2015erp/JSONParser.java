@@ -43,7 +43,7 @@ public class JSONParser {
 
             // Execute the POST request and store the response locally.
             HttpResponse httpResponse = httpClient.execute(httpPost);
-            // Extract data fsrom the response.
+            // Extract data from the response.
             HttpEntity httpEntity = httpResponse.getEntity();
             // Open an inputStream with the data content.
             is = httpEntity.getContent();
@@ -92,7 +92,7 @@ public class JSONParser {
     
  
     // function get json from url
-    // by making HTTP POST or GET mehtod
+    // by making HTTP POST or GET method
     public JSONObject makeHttpRequest(String url, String method,
             List<NameValuePair> params, String token) {
     	String completeUrl = "http://erptest.saarang.org/" + url;
@@ -113,10 +113,13 @@ public class JSONParser {
                 is = httpEntity.getContent();
  
             }else if(method == "GET"){
+            	if(!completeUrl.endsWith("?"))
+                    completeUrl += "?";
                 // request method is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
-                url += "?" + paramString;
+                completeUrl += paramString;
+                
                 HttpGet httpGet = new HttpGet(completeUrl);
                 httpGet.setHeader("Authorization", "Token " + token);
                 HttpResponse httpResponse = httpClient.execute(httpGet);

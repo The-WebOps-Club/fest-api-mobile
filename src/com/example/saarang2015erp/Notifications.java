@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -94,17 +95,23 @@ public class Notifications extends Fragment {
 
 		protected void onPostExecute(String file_url) {
 			pDialog.dismiss();
+			final String id[] = new String[theArray.length()];
 			if (status == 1){
 				final String header[] = new String[theArray.length()];
 				final String descriptionArray[] = new String[theArray.length()];
+				
 				try{
 				for (int i = 0; i < theArray.length(); i++) {
 					JSONObject jsonInside = theArray.getJSONObject(i);
 					JSONObject wall = jsonInside.getJSONObject("wall");
+					JSONObject target = jsonInside.getJSONObject("target");
+					String post_id= target.getString("id");
+					Log.d("id", post_id );
 					String wallName = wall.getString("name");
 					JSONObject actor = jsonInside.getJSONObject("actor");
 					String actorName = actor.getString("name");
 					String verb = jsonInside.getString("verb");
+					
 					String description = jsonInside
 							.getString("description");
 					Log.d("heading", actorName + " " + verb + " "
@@ -112,6 +119,7 @@ public class Notifications extends Fragment {
 					Log.d("Content", description);
 					header[i] = "<b>" +actorName + "</b>" + " " + verb + " "+"<b>" + wallName + "</b>";
 					descriptionArray[i] = description;
+					id[i] = post_id;
 				}
 				
 				NotificationList adapter = new NotificationList(getActivity(), header, descriptionArray);
@@ -121,8 +129,13 @@ public class Notifications extends Fragment {
 
 		            @Override
 		            public void onItemClick(AdapterView<?> parent, View view,
-		                                    int position, long id) {
-		                Toast.makeText(getActivity(), "You Clicked at " + header[+ position], Toast.LENGTH_SHORT).show();
+		                                    int position, long useless_id) {
+		              
+		            	Intent i=new Intent(getActivity(),PostView.class);
+			                i.putExtra("post_id", id[+ position]);
+			                
+			                startActivity(i); 
+		            //	Toast.makeText(getActivity(), "You Clicked at " + header[+ position], Toast.LENGTH_SHORT).show();
 
 		            }
 		        });
