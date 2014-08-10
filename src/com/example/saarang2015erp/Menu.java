@@ -1,15 +1,20 @@
 package com.example.saarang2015erp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -28,39 +33,41 @@ public class Menu extends Activity {
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		android.app.ActionBar ab = getActionBar(); 
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#355088"));     
+        ab.setBackgroundDrawable(colorDrawable);
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
-		int noWalls = uid.getInt("noWalls", 3) + 2;
-		String[] DrawerItems = new String[noWalls];	
+		int noWalls = uid.getInt("noWalls", 3);
+		Log.d("No; of pages", Integer.toString(noWalls));
+		String[] DrawerItems = new String[noWalls + 2];
 		DrawerItems[0] = "Notifications";
-		
-		int i = 0;
-		String pageName = uid.getString("page_" + Integer.toString(i), "none");
-		while (pageName != "none") {
+
+		Log.d("Reached Where?", "Loading Array");
+		for (int i = 0; i < noWalls; i++) {
+			String pageName = uid.getString("page_" + Integer.toString(i),
+					"none");
 			Log.d("Preferences", pageName);
-			i++;
-			DrawerItems[i] = pageName;
+			DrawerItems[i + 1] = pageName;
 			pageName = uid.getString("page_" + Integer.toString(i), "none");
 		}
-		DrawerItems[i + 1] = "SignOut";
-		for(int s = 0; s<5; s++){
-			Log.d("Item", DrawerItems[s]);
-		}
-		int k = i + 1;
+		Log.d("Reached Where?", "Loaded Array");
+
+		DrawerItems[noWalls + 1] = "SignOut";
+		// for(int s = 0; s<5; s++){
+		// Log.d("Item", DrawerItems[s]);
+		// }
 		// set a custom shadow that overlays the main content when the drawer
 		// opens
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
 				GravityCompat.START);
-		String[] DrawerItemsA = {"SDFD", "fdf", "dfd"};
 		// set up the drawer's list view with items and click listener
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 				R.layout.drawer_list_item, DrawerItems));
@@ -108,27 +115,18 @@ public class Menu extends Activity {
 	}
 
 	private void selectItem(int position) {
-		
-		
-		 // update the main content by replacing fragments
-		
-		SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);		
-		int noWalls = uid.getInt("noWalls", 3) + 2;
-		
-		if (position == noWalls - 1){
+
+		// update the main content by replacing fragments
+
+		SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
+		int noWalls = uid.getInt("noWalls", 3);
+
+		if (position == noWalls + 1) {
 			uid.edit().clear().commit();
 			Intent mainPage = new Intent(Menu.this, MainActivity.class);
 			startActivity(mainPage);
-		}
-		
-		switch (position) {
-		case 0:
+		} else if (position == 0) {
 			Fragment fragment = new Notifications();
-			/*
-			 * Bundle args = new Bundle();
-			 * args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-			 * fragment.setArguments(args);
-			 */
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.content_frame, fragment).commit();
@@ -139,9 +137,35 @@ public class Menu extends Activity {
 			setTitle("Notifications");
 			mDrawerLayout.closeDrawer(mDrawerList);
 
+		} else {
+			Fragment fragment = new WallViewFragment();
+			mDrawerLayout.closeDrawer(mDrawerList);
+			Bundle args = new Bundle();
+			int prefNum = position - 1;
+			String WallName = uid.getString(
+					"page_" + Integer.toString(prefNum), "0");
+			int page_id = uid.getInt("page_id_" + Integer.toString(prefNum),
+					0);
+			args.putString("page_id", Integer.toString(page_id));
+			args.putString("wallName", WallName);
+			fragment.setArguments(args);
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.content_frame, fragment).commit();
+
+			// update selected item and title, then close the drawer
+			mDrawerList.setItemChecked(position, true);
+
+			setTitle(WallName);
+			
+
+
+		}
+
+		switch (position) {
+		case 0:
+
 			break;
-	
-		
 
 		}
 	}
@@ -169,6 +193,13 @@ public class Menu extends Activity {
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		finish();
 	}
 
 	/**

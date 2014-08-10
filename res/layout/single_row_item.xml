@@ -2,11 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e3e2dd"
+    android:background="#c4cde0"
     android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp" >
+    android:paddingTop="5dp" >
 
 <LinearLayout
     android:layout_width="fill_parent"
@@ -17,15 +15,27 @@
     android:paddingRight="5dp" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="3dp"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:paddingTop="3dp"
         android:text="Aqel Ahammad K P commented on the wall MobOps"
+        android:textColor="#2f4779"
         android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:text="21/03/2014"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#d7ddea"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/textView2"

@@ -8,7 +8,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -37,6 +36,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		android.app.ActionBar actionBar = getActionBar();
+		actionBar.hide();
 		SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
 		String token = uid.getString("uid", "text");
 		if (token != "text") {
@@ -75,7 +76,7 @@ public class MainActivity extends Activity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			pDialog = new ProgressDialog(MainActivity.this);
-			pDialog.setMessage("Loading UserData...");
+			pDialog.setMessage("Signing in...");
 			pDialog.setIndeterminate(false);
 			pDialog.setCancelable(true);
 			pDialog.show();
@@ -127,8 +128,6 @@ public class MainActivity extends Activity {
 				SharedPreferences.Editor editor = uid.edit();
 				editor.putString("uid", tx);
 				editor.commit();
-				Intent openMenu = new Intent("com.example.saarang2015erp.Menu");
-				startActivity(openMenu);
 				new GetWalls().execute();
 			} else {
 				
@@ -146,11 +145,11 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			pDialog = new ProgressDialog(MainActivity.this);
-			pDialog.setMessage("Loading UserData...");
-			pDialog.setIndeterminate(false);
-			pDialog.setCancelable(true);
-			pDialog.show();
+			//pDialog = new ProgressDialog(MainActivity.this);
+			//pDialog.setMessage("Signing in...");
+			//pDialog.setIndeterminate(false);
+			//pDialog.setCancelable(true);
+			//pDialog.show();
 		}
 
 		@Override
@@ -174,6 +173,7 @@ public class MainActivity extends Activity {
 					JSONArray theArray = json.getJSONArray("data");
 					SharedPreferences.Editor editor = uid.edit();
 					editor.putInt("noWalls", theArray.length());
+					Log.d("No; of pages", Integer.toString(theArray.length()));
 					for (int i = 0; i < theArray.length(); i++) {
 						JSONObject jsonInside = theArray.getJSONObject(i);
 						String name = jsonInside.getString("name");
@@ -196,8 +196,10 @@ public class MainActivity extends Activity {
 
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
-			pDialog.dismiss();
-
+			//pDialog.dismiss();
+			Intent openMenu = new Intent("com.example.saarang2015erp.Menu");
+			startActivity(openMenu);
+		
 		}
 
 	}

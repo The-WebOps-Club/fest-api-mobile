@@ -18,7 +18,12 @@
         android:theme="@style/AppTheme" >
         <activity
            android:name="com.example.saarang2015erp.PostView"
-           android:label="@string/app_name" >
+           android:label="@string/app_name" 
+            >
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.saarang2015erp.Menu" />
            <intent-filter>
                <action android:name="android.intent.action.Postview" />
 
@@ -35,8 +40,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Menu"
-            android:label="@string/app_name" >
+            android:name="com.example.saarang2015erp.Menu"
+            android:label="@string/app_name" 
+            >
             <intent-filter>
                 <action android:name="com.example.saarang2015erp.Menu" />
 
@@ -52,6 +58,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+<activity
+            android:name="com.example.saarang2015erp.Wall"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.WALL" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
         <activity
             android:name="com.example.saarang2015erp.Notifications"
             android:label="@string/app_name" >

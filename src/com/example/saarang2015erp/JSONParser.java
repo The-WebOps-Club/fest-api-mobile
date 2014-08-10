@@ -106,6 +106,9 @@ public class JSONParser {
                 // defaultHttpClient
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(completeUrl);
+                if (token != null){
+                httpPost.setHeader("Authorization", "Token " + token);
+                }
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
  
                 HttpResponse httpResponse = httpClient.execute(httpPost);

@@ -1,7 +1,13 @@
 package com.example.saarang2015erp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 import org.apache.http.NameValuePair;
@@ -43,6 +49,7 @@ public class Notifications extends Fragment {
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
+		
 		new getNotifications().execute();
 
 	}
@@ -99,7 +106,8 @@ public class Notifications extends Fragment {
 			if (status == 1){
 				final String header[] = new String[theArray.length()];
 				final String descriptionArray[] = new String[theArray.length()];
-				
+				final String wallsArray[] = new String[theArray.length()];
+				final String dateArray[] = new String[theArray.length()];
 				try{
 				for (int i = 0; i < theArray.length(); i++) {
 					JSONObject jsonInside = theArray.getJSONObject(i);
@@ -111,18 +119,32 @@ public class Notifications extends Fragment {
 					JSONObject actor = jsonInside.getJSONObject("actor");
 					String actorName = actor.getString("name");
 					String verb = jsonInside.getString("verb");
-					
+					String timeStamp = jsonInside.getString("timestamp");
 					String description = jsonInside
 							.getString("description");
 					Log.d("heading", actorName + " " + verb + " "
 							+ wallName);
 					Log.d("Content", description);
-					header[i] = "<b>" +actorName + "</b>" + " " + verb + " "+"<b>" + wallName + "</b>";
+					header[i] = "<b>" +actorName + "</b>"  + " " + verb + " "+"<b>" + wallName + "</b> ";
+					Date date = null;
+					try {
+					date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(timeStamp);
+					int year = date.getYear();
+					dateArray[i] = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
+					Log.d("Year", new SimpleDateFormat("dd/MM/yyyy").format(date).toString());
+					} catch (ParseException e) {
+					e.printStackTrace();
+					}
+
 					descriptionArray[i] = description;
 					id[i] = post_id;
+					wallsArray[i] = wallName;
 				}
 				
-				NotificationList adapter = new NotificationList(getActivity(), header, descriptionArray);
+				
+				
+				
+				NotificationList adapter = new NotificationList(getActivity(), header, descriptionArray, dateArray);
 				ListView list = (ListView) getView().findViewById(R.id.listView1);
 				list.setAdapter(adapter);
 				list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -133,6 +155,7 @@ public class Notifications extends Fragment {
 		              
 		            	Intent i=new Intent(getActivity(),PostView.class);
 			                i.putExtra("post_id", id[+ position]);
+			               i.putExtra("WallName", wallsArray[+ position]);
 			                
 			                startActivity(i); 
 		            //	Toast.makeText(getActivity(), "You Clicked at " + header[+ position], Toast.LENGTH_SHORT).show();
