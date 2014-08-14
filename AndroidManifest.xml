@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.saarang2015erp"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="org.saarang.erp"
+    android:versionCode="2"
+    android:versionName="1.0.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-           android:name="com.example.saarang2015erp.PostView"
+           android:name="org.saarang.erp.PostView"
            android:label="@string/app_name" 
             >
         <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -32,15 +32,28 @@
        </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name="com.example.saarang2015erp.Menu"
+            android:name="org.saarang.erp.NewPost"
+            android:label="@string/app_name" 
+            >
+            <intent-filter>
+                <action android:name="com.example.saarang2015erp.NewPost" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="org.saarang.erp.TestMenu"
             android:label="@string/app_name" 
             >
             <intent-filter>
@@ -50,7 +63,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.saarang2015erp.Pages"
+            android:name="org.saarang.erp.Pages"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.PAGES" />
@@ -59,7 +72,7 @@
             </intent-filter>
         </activity>
 <activity
-            android:name="com.example.saarang2015erp.Wall"
+            android:name="org.saarang.erp.Wall"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.WALL" />
@@ -69,7 +82,7 @@
         </activity>
         
         <activity
-            android:name="com.example.saarang2015erp.Notifications"
+            android:name="org.saarang.erp.Notifications"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.Notifications" />

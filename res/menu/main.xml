@@ -2,11 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.saarang2015erp.MainActivity" >
-
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
-
+   <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_refresh"
+        android:showAsAction="ifRoom"
+        android:title="Refresh">
+    </item>
+   <item
+        android:id="@+id/new_post"
+        android:icon="@drawable/ic_new_post"
+        android:showAsAction="ifRoom"
+        android:title="New Post">
+    </item>
+   
 </menu>

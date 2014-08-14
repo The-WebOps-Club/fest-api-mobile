@@ -12,6 +12,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/selector_card_background"
         android:orientation="vertical"
+        android:paddingBottom="5dp"
         android:paddingTop="5dp" >
 
         <TextView
@@ -21,7 +22,8 @@
             android:layout_marginLeft="10dp"
             android:text="Username"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="19sp" />
+            android:textColor="#2f4779"
+            android:textSize="16sp" />
 
          <TextView
              android:id="@+id/subject"
@@ -48,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:paddingBottom="6dp"
+            android:paddingLeft="7dp"
             android:text="Post content here"
             android:textSize="14sp" />
 
@@ -55,7 +58,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ebeef4"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
 
             <TextView
                 android:id="@+id/comment1"
@@ -65,18 +70,23 @@
                 android:layout_marginLeft="3dp"
                 android:padding="3dp"
                 android:text="test"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/Button1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
             android:layout_weight="1"
             android:background="@drawable/button"
             android:minHeight="30dip"
-            android:text="Button" />
+            android:padding="10dp"
+            android:text="Comment"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
