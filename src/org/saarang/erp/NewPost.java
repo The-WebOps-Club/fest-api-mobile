@@ -101,6 +101,7 @@ public class NewPost extends Activity {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			pDialog.dismiss();
 

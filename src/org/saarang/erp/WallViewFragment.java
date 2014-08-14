@@ -22,6 +22,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -180,6 +181,7 @@ public class WallViewFragment extends Fragment {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
@@ -211,8 +213,7 @@ public class WallViewFragment extends Fragment {
 							dateb = new SimpleDateFormat(
 									"yyyy-MM-dd'T'HH:mm:ss'Z'")
 									.parse(recievedDateb);
-							recievedDateb = new SimpleDateFormat("dd/MM/yyyy")
-									.format(dateb).toString();
+							recievedDateb = (String) DateUtils.getRelativeTimeSpanString(dateb.getTime()) ;
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
@@ -229,8 +230,7 @@ public class WallViewFragment extends Fragment {
 								date = new SimpleDateFormat(
 										"yyyy-MM-dd'T'HH:mm:ss'Z'")
 										.parse(recievedDate);
-								dateComment = new SimpleDateFormat("dd/MM/yyyy")
-										.format(date).toString();
+								dateComment = (String) DateUtils.getRelativeTimeSpanString(date.getTime()) ;;
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -298,6 +298,7 @@ public class WallViewFragment extends Fragment {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
@@ -325,8 +326,7 @@ public class WallViewFragment extends Fragment {
 					try {
 						dateb = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
 								.parse(recievedDateb);
-						recievedDateb = new SimpleDateFormat("dd/MM/yyyy")
-								.format(dateb).toString();
+						recievedDateb = (String) DateUtils.getRelativeTimeSpanString(dateb.getTime()) ;
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -343,8 +343,7 @@ public class WallViewFragment extends Fragment {
 							date = new SimpleDateFormat(
 									"yyyy-MM-dd'T'HH:mm:ss'Z'")
 									.parse(recievedDate);
-							dateComment = new SimpleDateFormat("dd/MM/yyyy")
-									.format(date).toString();
+							dateComment = (String) DateUtils.getRelativeTimeSpanString(date.getTime()) ;
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}

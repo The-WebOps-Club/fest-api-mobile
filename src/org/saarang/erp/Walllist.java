@@ -39,6 +39,7 @@ public class Walllist extends ArrayAdapter<String> {
 
 		
 	}
+	@Override
 	public View getView(final int position, View view, ViewGroup parent) {
 		LayoutInflater inflater = context.getLayoutInflater();
 		final View rowView= inflater.inflate(R.layout.postview_single, null, true);
@@ -102,6 +103,7 @@ public class Walllist extends ArrayAdapter<String> {
 			
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			//pDialog.dismiss();
 			//getComment.setText(" ");

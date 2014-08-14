@@ -24,6 +24,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,6 +111,7 @@ public class Notifications extends Fragment {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			pDialog.dismiss();
 			final String id[] = new String[theArray.length()];
@@ -136,7 +138,7 @@ public class Notifications extends Fragment {
 					try {
 					date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(timeStamp);
 					int year = date.getYear();
-					dateArray[i] = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
+					dateArray[i] = (String) DateUtils.getRelativeTimeSpanString(date.getTime()) ;
 					} catch (ParseException e) {
 					e.printStackTrace();
 					}

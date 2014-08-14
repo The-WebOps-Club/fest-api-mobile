@@ -24,6 +24,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,12 +33,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.ocpsoft.pretty.time.PrettyTime;
 
 public class PostView extends Activity {
 	//String post_id;
 	String actor_name, wall_name;
 	public static String post_id;
 
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
@@ -122,6 +125,7 @@ public class PostView extends Activity {
 		int status;
 		String username,subject, content, datePost;
 		private ProgressDialog pDialog;
+		PrettyTime p = new PrettyTime();
 
 		@Override
 		protected void onPreExecute() {
@@ -158,7 +162,7 @@ public class PostView extends Activity {
 					try {
 					date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(recievedDate);
 					int year = date.getYear();
-					datePost = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
+					datePost = (String) DateUtils.getRelativeTimeSpanString(date.getTime()) ;
 					} catch (ParseException e) {
 					e.printStackTrace();
 					}
@@ -174,6 +178,7 @@ public class PostView extends Activity {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			if (status == 1) {
 				pDialog.dismiss();
@@ -202,7 +207,7 @@ public class PostView extends Activity {
 						String dateComment = " ";
 						try {
 						date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(recievedDate);
-						dateComment = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
+						dateComment =(String) DateUtils.getRelativeTimeSpanString(date.getTime()) ;
 						} catch (ParseException e) {
 						e.printStackTrace();
 						}
@@ -278,6 +283,7 @@ public class PostView extends Activity {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			pDialog.dismiss();
 			getComment.setText(" ");

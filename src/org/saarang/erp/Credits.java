@@ -41,6 +41,7 @@ public class Credits extends Fragment {
 		rate= (Button) getView().findViewById(R.id.rate);
 		bug.setOnClickListener(new View.OnClickListener() {
 			
+			@Override
 			public void onClick(View v) {
 
 				composeEmail("shahid@saarang.org", "Saarang erp app bug report") ;

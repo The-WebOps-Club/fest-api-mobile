@@ -134,6 +134,7 @@ public class MainActivity extends Activity {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
@@ -204,6 +205,7 @@ public class MainActivity extends Activity {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			//pDialog.dismiss();
