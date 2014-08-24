@@ -110,6 +110,7 @@ public class Notifications extends Fragment {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			pDialog.dismiss();
 			final String id[] = new String[theArray.length()];
@@ -118,6 +119,7 @@ public class Notifications extends Fragment {
 				final String descriptionArray[] = new String[theArray.length()];
 				final String wallsArray[] = new String[theArray.length()];
 				final String dateArray[] = new String[theArray.length()];
+<<<<<<< HEAD
 				try {
 					for (int i = 0; i < theArray.length(); i++) {
 						JSONObject jsonInside = theArray.getJSONObject(i);
@@ -147,6 +149,8 @@ public class Notifications extends Fragment {
 						descriptionArray[i] = description;
 						id[i] = post_id;
 						wallsArray[i] = wallName;
+
+>>>>>>> 47b91ee62debfd354b684fecb4a74094e3e7a114
 					}
 
 					NotificationList adapter = new NotificationList(

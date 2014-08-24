@@ -23,6 +23,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -182,6 +183,7 @@ public class WallViewFragment extends Fragment {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
@@ -213,8 +215,10 @@ public class WallViewFragment extends Fragment {
 							dateb = new SimpleDateFormat(
 									"yyyy-MM-dd'T'HH:mm:ss'Z'")
 									.parse(recievedDateb);
+<<<<<<< HEAD
 							recievedDateb = (String) DateUtils
 									.getRelativeTimeSpanString(dateb.getTime()+shift_timezone);
+>>>>>>> 47b91ee62debfd354b684fecb4a74094e3e7a114
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
@@ -231,7 +235,9 @@ public class WallViewFragment extends Fragment {
 								date = new SimpleDateFormat(
 										"yyyy-MM-dd'T'HH:mm:ss'Z'")
 										.parse(recievedDate);
+<<<<<<< HEAD
 								dateComment = (String) DateUtils.getRelativeTimeSpanString(date.getTime()+shift_timezone) ;
+>>>>>>> 47b91ee62debfd354b684fecb4a74094e3e7a114
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -300,6 +306,7 @@ public class WallViewFragment extends Fragment {
 			return null;
 		}
 
+		@Override
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
@@ -327,7 +334,10 @@ public class WallViewFragment extends Fragment {
 					try {
 						dateb = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
 								.parse(recievedDateb);
+<<<<<<< HEAD
 						recievedDateb = (String) DateUtils.getRelativeTimeSpanString(dateb.getTime()+shift_timezone) ;
+
+>>>>>>> 47b91ee62debfd354b684fecb4a74094e3e7a114
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -344,7 +354,9 @@ public class WallViewFragment extends Fragment {
 							date = new SimpleDateFormat(
 									"yyyy-MM-dd'T'HH:mm:ss'Z'")
 									.parse(recievedDate);
+<<<<<<< HEAD
 							dateComment = (String) DateUtils.getRelativeTimeSpanString(date.getTime()+shift_timezone) ;
+>>>>>>> 47b91ee62debfd354b684fecb4a74094e3e7a114
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
