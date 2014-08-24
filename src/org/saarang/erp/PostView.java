@@ -34,7 +34,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.ocpsoft.pretty.time.PrettyTime;
 
 public class PostView extends Activity {
 	//String post_id;
@@ -126,7 +125,7 @@ public class PostView extends Activity {
 		int status;
 		String username,subject, content, datePost;
 		private ProgressDialog pDialog;
-		PrettyTime p = new PrettyTime();
+		//PrettyTime p = new PrettyTime();
 
 		@Override
 		protected void onPreExecute() {
