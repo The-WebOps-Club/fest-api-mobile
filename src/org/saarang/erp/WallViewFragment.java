@@ -1,6 +1,8 @@
 package org.saarang.erp;
 
 import java.text.ParseException;
+import android.text.format.DateUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +38,7 @@ import android.widget.Toast;
 public class WallViewFragment extends Fragment {
 
 	TextView tv;
+	long shift_timezone= (long) (5.5*3600*1000);
 	int type = 0;
 	String tx = null, error = null;
 	String userName, password;
@@ -210,8 +213,8 @@ public class WallViewFragment extends Fragment {
 							dateb = new SimpleDateFormat(
 									"yyyy-MM-dd'T'HH:mm:ss'Z'")
 									.parse(recievedDateb);
-							recievedDateb = new SimpleDateFormat("dd/MM/yyyy")
-									.format(dateb).toString();
+							recievedDateb = (String) DateUtils
+									.getRelativeTimeSpanString(dateb.getTime()+shift_timezone);
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
@@ -228,8 +231,7 @@ public class WallViewFragment extends Fragment {
 								date = new SimpleDateFormat(
 										"yyyy-MM-dd'T'HH:mm:ss'Z'")
 										.parse(recievedDate);
-								dateComment = new SimpleDateFormat("dd/MM/yyyy")
-										.format(date).toString();
+								dateComment = (String) DateUtils.getRelativeTimeSpanString(date.getTime()+shift_timezone) ;
 							} catch (ParseException e) {
 								e.printStackTrace();
 							}
@@ -325,8 +327,7 @@ public class WallViewFragment extends Fragment {
 					try {
 						dateb = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
 								.parse(recievedDateb);
-						recievedDateb = new SimpleDateFormat("dd/MM/yyyy")
-								.format(dateb).toString();
+						recievedDateb = (String) DateUtils.getRelativeTimeSpanString(dateb.getTime()+shift_timezone) ;
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -343,8 +344,7 @@ public class WallViewFragment extends Fragment {
 							date = new SimpleDateFormat(
 									"yyyy-MM-dd'T'HH:mm:ss'Z'")
 									.parse(recievedDate);
-							dateComment = new SimpleDateFormat("dd/MM/yyyy")
-									.format(date).toString();
+							dateComment = (String) DateUtils.getRelativeTimeSpanString(date.getTime()+shift_timezone) ;
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}

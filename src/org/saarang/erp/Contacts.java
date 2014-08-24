@@ -31,7 +31,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Notifications extends Fragment {
+public class Contacts extends Fragment {
 	public String not;
 
 	@Override

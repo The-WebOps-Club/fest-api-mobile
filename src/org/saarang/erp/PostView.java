@@ -24,6 +24,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 
 public class PostView extends Activity {
 	// String post_id;
+	long shift_timezone=(long) (5.5*3600*1000);
 	String actor_name, wall_name;
 	public static String post_id;
 
@@ -161,8 +163,7 @@ public class PostView extends Activity {
 						date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
 								.parse(recievedDate);
 						int year = date.getYear();
-						datePost = new SimpleDateFormat("dd/MM/yyyy").format(
-								date).toString();
+						datePost =(String) DateUtils.getRelativeTimeSpanString(date.getTime()+ shift_timezone) ;
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -209,8 +210,7 @@ public class PostView extends Activity {
 							date = new SimpleDateFormat(
 									"yyyy-MM-dd'T'HH:mm:ss'Z'")
 									.parse(recievedDate);
-							dateComment = new SimpleDateFormat("dd/MM/yyyy")
-									.format(date).toString();
+							dateComment = (String) DateUtils.getRelativeTimeSpanString(date.getTime()+shift_timezone) ;
 						} catch (ParseException e) {
 							e.printStackTrace();
 						}
