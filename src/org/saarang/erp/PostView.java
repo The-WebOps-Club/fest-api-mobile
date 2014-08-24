@@ -34,7 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class PostView extends Activity {
-	//String post_id;
+	// String post_id;
 	String actor_name, wall_name;
 	public static String post_id;
 
@@ -42,46 +42,49 @@ public class PostView extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.postview);
-		android.app.ActionBar ab = getActionBar(); 
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#355088"));     
-        ab.setBackgroundDrawable(colorDrawable);
-        Bundle extras = getIntent().getExtras();
-        String passed = null;
-    	   passed = extras.getString("passed");
-       
-        if (passed.equals("passed")){
-        	Log.d("if", "if");
-        String subject = extras.getString("WallName");
-        String username = extras.getString("username");
-        String date = extras.getString("date");
-        String discription = extras.getString("discription");
-        String allComments = extras.getString("allComments");
-        TextView subjectText = (TextView) findViewById(R.id.subject);
-		subjectText.setText(subject);
-		TextView setDdate = (TextView) findViewById(R.id.tvDate);
-		setDdate.setText(date);
-		TextView setContent = (TextView) findViewById(R.id.description);
-		setContent.setText(discription);
-		TextView setUser = (TextView) findViewById(R.id.username);
-		setUser.setText(username);
-		TextView comments = (TextView) findViewById(R.id.comment1);
-		comments.setText(Html.fromHtml(allComments));
-        }else if (passed.equals("notif")){
-        	   boolean a = false;
-       		ConnectivityManager connectivityManager 
-                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-           NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-           a = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-       	if (a){
-       		try{
-       			new getComments().execute();
-       		} catch (Exception e){
-       		}
-       	}else {
-       		Toast.makeText(PostView.this, "No internet connection. Check your connection and " +
-       			"try again later", Toast.LENGTH_SHORT).show();
-       	}        	
-        }
+		android.app.ActionBar ab = getActionBar();
+		ColorDrawable colorDrawable = new ColorDrawable(
+				Color.parseColor("#355088"));
+		ab.setBackgroundDrawable(colorDrawable);
+		Bundle extras = getIntent().getExtras();
+		String passed = null;
+		passed = extras.getString("passed");
+
+		if (passed.equals("passed")) {
+			Log.d("if", "if");
+			String subject = extras.getString("WallName");
+			String username = extras.getString("username");
+			String date = extras.getString("date");
+			String discription = extras.getString("discription");
+			String allComments = extras.getString("allComments");
+			TextView subjectText = (TextView) findViewById(R.id.subject);
+			subjectText.setText(subject);
+			TextView setDdate = (TextView) findViewById(R.id.tvDate);
+			setDdate.setText(date);
+			TextView setContent = (TextView) findViewById(R.id.description);
+			setContent.setText(discription);
+			TextView setUser = (TextView) findViewById(R.id.username);
+			setUser.setText(username);
+			TextView comments = (TextView) findViewById(R.id.comment1);
+			comments.setText(Html.fromHtml(allComments));
+		} else if (passed.equals("notif")) {
+			boolean a = false;
+			ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo activeNetworkInfo = connectivityManager
+					.getActiveNetworkInfo();
+			a = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+			if (a) {
+				try {
+					new getComments().execute();
+				} catch (Exception e) {
+				}
+			} else {
+				Toast.makeText(
+						PostView.this,
+						"No internet connection. Check your connection and "
+								+ "try again later", Toast.LENGTH_SHORT).show();
+			}
+		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		if (extras != null) {
 			post_id = extras.getString("post_id");
@@ -90,29 +93,28 @@ public class PostView extends Activity {
 		setTitle(wall_name);
 		Button bPost = (Button) findViewById(R.id.but_comment);
 		bPost.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stubduration
-				
-				try{
-					new postComments().execute();	
-				}catch(Exception e){
-					Toast.makeText(PostView.this, "Not connected to internet", Toast.LENGTH_SHORT).show();
+
+				try {
+					new postComments().execute();
+				} catch (Exception e) {
+					Toast.makeText(PostView.this, "Not connected to internet",
+							Toast.LENGTH_SHORT).show();
 				}
-				
-				
+
 			}
 		});
-		
 
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent back = new Intent(PostView.this, TestMenu.class);
 		startActivity(back);
-	    return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected(item);
 	}
 
 	class getComments extends AsyncTask<String, String, String> {
@@ -120,7 +122,7 @@ public class PostView extends Activity {
 		JSONParser jsonParser = new JSONParser();
 		JSONObject theData;
 		int status;
-		String username,subject, content, datePost;
+		String username, subject, content, datePost;
 		private ProgressDialog pDialog;
 
 		@Override
@@ -132,8 +134,7 @@ public class PostView extends Activity {
 			pDialog.setCancelable(true);
 			pDialog.show();
 		}
-		
-		
+
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
@@ -150,17 +151,20 @@ public class PostView extends Activity {
 				if (status == 1) {
 					theData = json.getJSONObject("data");
 					JSONObject by = theData.getJSONObject("by");
-					username = by.getString("first_name") + " " + by.getString("last_name"); 
+					username = by.getString("first_name") + " "
+							+ by.getString("last_name");
 					subject = theData.getString("subject");
 					content = theData.getString("description");
 					String recievedDate = theData.getString("time_created");
 					Date date = null;
 					try {
-					date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(recievedDate);
-					int year = date.getYear();
-					datePost = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
+						date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+								.parse(recievedDate);
+						int year = date.getYear();
+						datePost = new SimpleDateFormat("dd/MM/yyyy").format(
+								date).toString();
 					} catch (ParseException e) {
-					e.printStackTrace();
+						e.printStackTrace();
 					}
 					theArray = theData.getJSONArray("comments");
 				} else {
@@ -177,7 +181,7 @@ public class PostView extends Activity {
 		protected void onPostExecute(String file_url) {
 			if (status == 1) {
 				pDialog.dismiss();
-				
+
 				final String descriptionArray[] = new String[theArray.length()];
 				try {
 					TextView subjectText = (TextView) findViewById(R.id.subject);
@@ -193,47 +197,47 @@ public class PostView extends Activity {
 						JSONObject jsonInside = theArray.getJSONObject(i);
 						JSONObject actor = jsonInside.getJSONObject("by");
 						// String actorName = actor.getString("name");
-						String user_id = actor.getString("first_name") + " " +
-								actor.getString("last_name");
+						String user_id = actor.getString("first_name") + " "
+								+ actor.getString("last_name");
 						String description = jsonInside
 								.getString("description");
-						String recievedDate = jsonInside.getString("time_created");
+						String recievedDate = jsonInside
+								.getString("time_created");
 						Date date = null;
 						String dateComment = " ";
 						try {
-						date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(recievedDate);
-						dateComment = new SimpleDateFormat("dd/MM/yyyy").format(date).toString();
+							date = new SimpleDateFormat(
+									"yyyy-MM-dd'T'HH:mm:ss'Z'")
+									.parse(recievedDate);
+							dateComment = new SimpleDateFormat("dd/MM/yyyy")
+									.format(date).toString();
 						} catch (ParseException e) {
-						e.printStackTrace();
+							e.printStackTrace();
 						}
-						allComments = allComments +  "<br><b>" + user_id 
-								+ " </b><br><font color='#899bc1'>"+ dateComment +"</font><br>" +" "+ description + "<br>";
+						allComments = allComments + "<br><b>" + user_id
+								+ " </b><br><font color='#899bc1'>"
+								+ dateComment + "</font><br>" + " "
+								+ description + "<br>";
 					}
-					
-					
-/*
-					ListView list = (ListView) findViewById(R.id.listView1);
-					// CommentList adapter= new
-					// CommentList(PostView.this,descriptionArray );
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-							PostView.this, R.layout.commentlist,
-							descriptionArray) {
-						@Override
-						public View getView(int position, View convertView,
-								ViewGroup parent) {
-							TextView tv = (TextView) super.getView(position,
-									convertView, parent);
-							String existingText;
-							existingText = tv.getText().toString();
-							tv.setText(Html.fromHtml(existingText));
-							
-							return tv;
-						} 
-					};
-					list.setAdapter(adapter);*/
+
+					/*
+					 * ListView list = (ListView) findViewById(R.id.listView1);
+					 * // CommentList adapter= new //
+					 * CommentList(PostView.this,descriptionArray );
+					 * ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+					 * PostView.this, R.layout.commentlist, descriptionArray) {
+					 * 
+					 * @Override public View getView(int position, View
+					 * convertView, ViewGroup parent) { TextView tv = (TextView)
+					 * super.getView(position, convertView, parent); String
+					 * existingText; existingText = tv.getText().toString();
+					 * tv.setText(Html.fromHtml(existingText));
+					 * 
+					 * return tv; } }; list.setAdapter(adapter);
+					 */
 					TextView comments = (TextView) findViewById(R.id.comment1);
 					comments.setText(Html.fromHtml(allComments));
-					
+
 				}
 
 				catch (Exception e) {
@@ -253,6 +257,7 @@ public class PostView extends Activity {
 		private ProgressDialog pDialog;
 		JSONParser jsonParser = new JSONParser();
 		EditText getComment;
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -262,8 +267,7 @@ public class PostView extends Activity {
 			pDialog.setCancelable(true);
 			pDialog.show();
 		}
-		
-		
+
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
@@ -274,7 +278,8 @@ public class PostView extends Activity {
 			paramse.add(new BasicNameValuePair("comment", theComment));
 			SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
 			String token = uid.getString("uid", "Aaa");
-			JSONObject json = jsonParser.makeHttpRequest(url, "POST", paramse, token);
+			JSONObject json = jsonParser.makeHttpRequest(url, "POST", paramse,
+					token);
 			return null;
 		}
 
@@ -282,11 +287,11 @@ public class PostView extends Activity {
 			pDialog.dismiss();
 			getComment.setText(" ");
 			Toast.makeText(PostView.this, "Done", Toast.LENGTH_SHORT).show();
-			Intent i=new Intent(PostView.this,PostView.class);
-            i.putExtra("post_id", post_id);
-           i.putExtra("WallName", wall_name);
-            i.putExtra("passed", "notif");
-            startActivity(i);
+			Intent i = new Intent(PostView.this, PostView.class);
+			i.putExtra("post_id", post_id);
+			i.putExtra("WallName", wall_name);
+			i.putExtra("passed", "notif");
+			startActivity(i);
 		}
 
 		/**

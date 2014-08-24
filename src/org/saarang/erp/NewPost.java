@@ -8,7 +8,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import org.saarang.erp.PostView.postComments;
 
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;

@@ -12,7 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -238,8 +237,9 @@ public class WallViewFragment extends Fragment {
 							completeComment = completeComment + "<br><b>"
 									+ commentBy.getString("first_name") + " "
 									+ commentBy.getString("last_name")
-									+ "</b><br><small><font color='#899bc1'>" + dateComment
-									+ "</font></small><br> " + " "
+									+ "</b><br><small><font color='#899bc1'>"
+									+ dateComment + "</font></small><br> "
+									+ " "
 									+ commentObject.getString("description")
 									+ "<br>";
 						}

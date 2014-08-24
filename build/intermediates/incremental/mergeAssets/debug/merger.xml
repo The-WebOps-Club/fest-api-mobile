@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="unspecified" >
+        <source path="/home/aqel/workspace/Saarang/build/intermediates/exploded-aar/aqel.workspace/google-play-services_lib/unspecified/assets" />
+    </dataSet>
+    <dataSet config="unspecified" >
+        <source path="/home/aqel/workspace/Saarang/build/intermediates/exploded-aar/aqel.Android.adt-bundle-linux-x86_64-20140702.sdk.extras.android.support.v7/appcompat/unspecified/assets" />
+    </dataSet>
+    <dataSet config="main" >
+        <source path="/home/aqel/workspace/Saarang/assets" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/home/aqel/workspace/Saarang/build-types/debug/assets" />
+    </dataSet>
+
+</merger>

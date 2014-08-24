@@ -9,7 +9,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,6 +19,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
 			Intent open = new Intent("com.example.saarang2015erp.Menu");
 			startActivity(open);
 		}
-			android.app.ActionBar actionBar = getActionBar();
+		android.app.ActionBar actionBar = getActionBar();
 		actionBar.hide();
 		setContentView(R.layout.main);
 		// tv = (TextView) findViewById(R.id.textView2);
@@ -58,38 +58,37 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				boolean a = false;
-				ConnectivityManager connectivityManager 
-		          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-		    a = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-			if (a){
-				try{
-					new loadUser().execute();
-				} catch (Exception e){
+				ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo activeNetworkInfo = connectivityManager
+						.getActiveNetworkInfo();
+				a = activeNetworkInfo != null
+						&& activeNetworkInfo.isConnected();
+				if (a) {
+					try {
+						new loadUser().execute();
+					} catch (Exception e) {
+					}
+				} else {
+					Toast.makeText(
+							MainActivity.this,
+							"No internet connection. Check your connection and "
+									+ "try again later", Toast.LENGTH_SHORT)
+							.show();
 				}
-			}else {
-				Toast.makeText(MainActivity.this, "No internet connection. Check your connection and " +
-					"try again later", Toast.LENGTH_SHORT).show();
-			}
 
-				
-				
-				
 			}
 		});
-		
-		
-		
+
 	}
 
-		@Override
+	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		finish();
 	}
 
-		class loadUser extends AsyncTask<String, String, String> {
+	class loadUser extends AsyncTask<String, String, String> {
 
 		@Override
 		protected void onPreExecute() {
@@ -143,12 +142,13 @@ public class MainActivity extends Activity {
 						MODE_PRIVATE);
 				SharedPreferences.Editor editor = uid.edit();
 				editor.putString("uid", tx);
+				editor.putString("user", userName);
 				editor.commit();
 				new GetWalls().execute();
 			} else {
-				Toast.makeText(MainActivity.this, "Wrong credentials.", Toast.LENGTH_SHORT).show();
-					
-				
+				Toast.makeText(MainActivity.this, "Wrong credentials.",
+						Toast.LENGTH_SHORT).show();
+
 			}
 
 		}
@@ -160,11 +160,11 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			//pDialog = new ProgressDialog(MainActivity.this);
-			//pDialog.setMessage("Signing in...");
-			//pDialog.setIndeterminate(false);
-			//pDialog.setCancelable(true);
-			//pDialog.show();
+			// pDialog = new ProgressDialog(MainActivity.this);
+			// pDialog.setMessage("Signing in...");
+			// pDialog.setIndeterminate(false);
+			// pDialog.setCancelable(true);
+			// pDialog.show();
 		}
 
 		@Override
@@ -177,7 +177,8 @@ public class MainActivity extends Activity {
 				String LOGIN_URL = "api/mobile/walls/";
 				List<NameValuePair> params1 = new ArrayList<NameValuePair>();
 				params1.add(new BasicNameValuePair("usernam", "aqel"));
-				SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
+				SharedPreferences uid = getSharedPreferences("uid",
+						MODE_PRIVATE);
 				String token = uid.getString("uid", "Aaa");
 				JSONObject json = jsonParser.makeHttpRequest(LOGIN_URL, "GET",
 						params1, token);
@@ -190,12 +191,29 @@ public class MainActivity extends Activity {
 						JSONObject jsonInside = theArray.getJSONObject(i);
 						String name = jsonInside.getString("name");
 						int id = jsonInside.getInt("id");
+						Log.d("wall", name);
+						try {
+							JSONObject person = jsonInside
+									.getJSONObject("person");
+							if (!person.equals(null)) {
+								Log.d("pt", "Pattikkappette");
+								Log.d("pt", person.toString());
+								JSONObject user = person.getJSONObject("user");
+								String userId = Integer.toString(user
+										.getInt("id"));
+								editor.putString("userId", userId);
+								Log.d("userId", userId);
+								Log.d("pt", "veendum Pattikkappette");
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						// editor.putString("userId", "userId");
 						editor.putString("page_" + Integer.toString(i), name);
 						editor.putInt("page_id_" + Integer.toString(i), id);
 						editor.commit();
 					}
 				}
-
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -206,10 +224,10 @@ public class MainActivity extends Activity {
 
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
-			//pDialog.dismiss();
+			// pDialog.dismiss();
 			Intent openMenu = new Intent("com.example.saarang2015erp.Menu");
 			startActivity(openMenu);
-		
+
 		}
 
 	}

@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-
 public class Pages extends Activity {
 
 	JSONParser jsonParser = new JSONParser();
