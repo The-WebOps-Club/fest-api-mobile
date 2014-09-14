@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,18 +34,20 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Contacts extends Activity {
+public class SearchResults extends Activity {
 	public String not;
 	 ExpandableListAdapter listAdapter;
 	    ExpandableListView expListView;
 	    List<String> listDataHeader;
 	    HashMap<String, List<String>> listDataChild,listDataChild2,listDataChild3;
-	    JSONObject deptJSON;
+	    JSONObject contact_struct;
 	    Context context;
 	    List<String> SuperCoords,CoordMail,CoordTel,Subdept;
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +60,15 @@ public class Contacts extends Activity {
 
 		setContentView(R.layout.contacts);
 		context = getApplicationContext();
-		String deptJSONasString=null;
-		deptJSON=null;
+		String deptJSONasString=null,searchq=null;
+		contact_struct=null;
 		if (extras != null) {
 			deptJSONasString = extras.getString("json");
+			searchq=extras.getString("searchq");
 		}
 		try {
-			deptJSON= new JSONObject(deptJSONasString);
-			setTitle(deptJSON.getString("name"));
+			contact_struct= new JSONObject(deptJSONasString);
+			setTitle("Search Results for : \'" + searchq+"\'" );
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,7 +105,36 @@ public class Contacts extends Activity {
 		}
 		// get the listview
         expListView = (ExpandableListView) findViewById(R.id.expandableListView1);
- 
+        JSONArray mainkeys =contact_struct.names();
+        int i=0;
+        while(i<contact_struct.length()){
+			try {
+				Log.d("Milestone",mainkeys.getString(i));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//String repeated = new String(new char[i]).replace("\0", str);
+	
+	JSONObject dept = null;
+	try {
+		dept = contact_struct.getJSONObject(mainkeys.getString(i));
+	} catch (JSONException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	try {
+		Log.d("Milestone",dept.getString("name"));
+	} catch (JSONException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	
+		i++;
+		}
+        
+        
+        
         // preparing list data
         try {
 			prepareListData();
@@ -114,8 +147,8 @@ public class Contacts extends Activity {
  
         // setting list adapter
         expListView.setAdapter(listAdapter);
-        for(int i=0; i < listAdapter.getGroupCount(); i++)
-        	expListView.expandGroup(i);
+        for(int j=0; j < listAdapter.getGroupCount(); j++)
+        	expListView.expandGroup(j);
         
 		// TODO Auto-generated method stub
 
@@ -159,19 +192,19 @@ public class Contacts extends Activity {
        SuperCoords = new ArrayList<String>();
        CoordTel = new ArrayList<String>();
        CoordMail = new ArrayList<String>();
-        getUsers(deptJSON,true);
+        getUsers(contact_struct,true);
         
         int i=0;
         
         //List<List<String>> group = new ArrayList<List<String>>(subdepts.length());
-        if(deptJSON.getString("name").equals("Cores"))
+        if(contact_struct.getString("name").equals("Cores"))
         	listDataHeader.add("Cores");
         else
         	listDataHeader.add("SuperCoords");
         	 listDataChild.put(listDataHeader.get(i), SuperCoords);
         	listDataChild2.put(listDataHeader.get(i), CoordTel);
         	listDataChild3.put(listDataHeader.get(i), CoordMail);
-        JSONObject subdepts = deptJSON.getJSONObject("subdepts");
+        JSONObject subdepts = contact_struct.getJSONObject("subdepts");
         JSONArray keys =subdepts.names();
         while(i<subdepts.length()) {
         	Subdept = new ArrayList<String>();

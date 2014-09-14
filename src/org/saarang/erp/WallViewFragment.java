@@ -47,7 +47,7 @@ public class WallViewFragment extends Fragment {
 	private ProgressDialog pDialog;
 	JSONParser jsonParser = new JSONParser();
 	int status;
-	JSONArray theArray;
+	JSONArray MainObject;
 	JSONArray comment;
 	public static String wallId;
 	public static int wallNo;
@@ -171,7 +171,7 @@ public class WallViewFragment extends Fragment {
 				SharedPreferences.Editor editor = uid.edit();
 				editor.putString("theJSONwall_" + wallNo, json.toString());
 				editor.commit();
-				theArray = json.getJSONArray("data");
+				MainObject = json.getJSONArray("data");
 
 				status = 0;
 				status = json.getInt("status");
@@ -187,18 +187,18 @@ public class WallViewFragment extends Fragment {
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
-			final String username[] = new String[theArray.length()];
-			final String subject[] = new String[theArray.length()];
-			final String discription[] = new String[theArray.length()];
-			final String allComments[] = new String[theArray.length()];
-			final String dateArray[] = new String[theArray.length()];
-			final String id[] = new String[theArray.length()];
+			final String username[] = new String[MainObject.length()];
+			final String subject[] = new String[MainObject.length()];
+			final String discription[] = new String[MainObject.length()];
+			final String allComments[] = new String[MainObject.length()];
+			final String dateArray[] = new String[MainObject.length()];
+			final String id[] = new String[MainObject.length()];
 
 			if (status == 1) {
-				for (int i = 0; i < theArray.length(); i++) {
+				for (int i = 0; i < MainObject.length(); i++) {
 					String completeComment = " ";
 					try {
-						JSONObject jsonInside = theArray.getJSONObject(i);
+						JSONObject jsonInside = MainObject.getJSONObject(i);
 						String oneId = Integer
 								.toString(jsonInside.getInt("id"));
 						id[i] = oneId;
@@ -294,7 +294,7 @@ public class WallViewFragment extends Fragment {
 				String jsonString = uid.getString("theJSONwall_" + wallNo,
 						"none");
 				JSONObject json = new JSONObject(jsonString);
-				theArray = json.getJSONArray("data");
+				MainObject = json.getJSONArray("data");
 				status = 1;
 
 			} catch (Exception e) {
@@ -308,17 +308,17 @@ public class WallViewFragment extends Fragment {
 		protected void onPostExecute(String file_url) {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
-			final String username[] = new String[theArray.length()];
-			final String subject[] = new String[theArray.length()];
-			final String discription[] = new String[theArray.length()];
-			final String allComments[] = new String[theArray.length()];
-			final String dateArray[] = new String[theArray.length()];
-			final String id[] = new String[theArray.length()];
+			final String username[] = new String[MainObject.length()];
+			final String subject[] = new String[MainObject.length()];
+			final String discription[] = new String[MainObject.length()];
+			final String allComments[] = new String[MainObject.length()];
+			final String dateArray[] = new String[MainObject.length()];
+			final String id[] = new String[MainObject.length()];
 
-			for (int i = 0; i < theArray.length(); i++) {
+			for (int i = 0; i < MainObject.length(); i++) {
 				String completeComment = " ";
 				try {
-					JSONObject jsonInside = theArray.getJSONObject(i);
+					JSONObject jsonInside = MainObject.getJSONObject(i);
 					String oneId = Integer.toString(jsonInside.getInt("id"));
 					id[i] = oneId;
 					JSONObject by = jsonInside.getJSONObject("by");

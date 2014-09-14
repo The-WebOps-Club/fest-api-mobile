@@ -119,7 +119,7 @@ public class PostView extends Activity {
 	}
 
 	class getComments extends AsyncTask<String, String, String> {
-		JSONArray theArray;
+		JSONArray MainObject;
 		JSONParser jsonParser = new JSONParser();
 		JSONObject theData;
 		int status;
@@ -166,7 +166,7 @@ public class PostView extends Activity {
 					} catch (ParseException e) {
 					e.printStackTrace();
 					}
-					theArray = theData.getJSONArray("comments");
+					MainObject = theData.getJSONArray("comments");
 				} else {
 
 				}
@@ -183,7 +183,7 @@ public class PostView extends Activity {
 			if (status == 1) {
 				pDialog.dismiss();
 				
-				final String descriptionArray[] = new String[theArray.length()];
+				final String descriptionArray[] = new String[MainObject.length()];
 				try {
 					TextView subjectText = (TextView) findViewById(R.id.subject);
 					subjectText.setText(subject);
@@ -194,8 +194,8 @@ public class PostView extends Activity {
 					TextView setUser = (TextView) findViewById(R.id.username);
 					setUser.setText(username);
 					String allComments = "";
-					for (int i = 0; i < theArray.length(); i++) {
-						JSONObject jsonInside = theArray.getJSONObject(i);
+					for (int i = 0; i < MainObject.length(); i++) {
+						JSONObject jsonInside = MainObject.getJSONObject(i);
 						JSONObject actor = jsonInside.getJSONObject("by");
 						// String actorName = actor.getString("name");
 						String user_id = actor.getString("first_name") + " " +

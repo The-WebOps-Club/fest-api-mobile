@@ -98,6 +98,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+           android:name="org.saarang.erp.Contacts"
+           android:label="@string/app_name" 
+            >
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.saarang2015erp.contacts" />
+           <intent-filter>
+               <action android:name="android.intent.action.Contacts" />
+
+               <category android:name="android.intent.category.DEFAULT" />
+           </intent-filter>
+       </activity>
              <receiver
             android:name=".GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >

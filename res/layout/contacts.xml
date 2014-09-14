@@ -5,15 +5,11 @@
     android:background="#c4cde0"
     android:orientation="vertical" >
 
-<ListView
-    android:id="@+id/listView1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp" 
-    android:paddingTop="5dp"
-    >
-	
-</ListView>
+    <ExpandableListView
+        android:id="@+id/expandableListView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        >
+    </ExpandableListView>
 
 </LinearLayout>

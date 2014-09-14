@@ -185,11 +185,11 @@ public class MainActivity extends Activity {
 						params1, token);
 				int status = json.getInt("status");
 				if (status == 1) {
-					JSONArray theArray = json.getJSONArray("data");
+					JSONArray MainObject = json.getJSONArray("data");
 					SharedPreferences.Editor editor = uid.edit();
-					editor.putInt("noWalls", theArray.length());
-					for (int i = 0; i < theArray.length(); i++) {
-						JSONObject jsonInside = theArray.getJSONObject(i);
+					editor.putInt("noWalls", MainObject.length());
+					for (int i = 0; i < MainObject.length(); i++) {
+						JSONObject jsonInside = MainObject.getJSONObject(i);
 						String name = jsonInside.getString("name");
 						int id = jsonInside.getInt("id");
 						Log.d("wall", name);

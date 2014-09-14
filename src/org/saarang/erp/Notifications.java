@@ -67,7 +67,7 @@ public class Notifications extends Fragment {
 
 	class getNotifications extends AsyncTask<String, String, String> {
 		private ProgressDialog pDialog;
-		JSONArray theArray;
+		JSONArray MainObject;
 		JSONParser jsonParser = new JSONParser();
 		int status;
 
@@ -98,7 +98,7 @@ public class Notifications extends Fragment {
 			try {
 				status = json.getInt("status");
 				if (status == 1) {
-					theArray = json.getJSONArray("data");
+					MainObject = json.getJSONArray("data");
 				} else {
 
 				}
@@ -113,15 +113,15 @@ public class Notifications extends Fragment {
 		@Override
 		protected void onPostExecute(String file_url) {
 			pDialog.dismiss();
-			final String id[] = new String[theArray.length()];
+			final String id[] = new String[MainObject.length()];
 			if (status == 1) {
-				final String header[] = new String[theArray.length()];
-				final String descriptionArray[] = new String[theArray.length()];
-				final String wallsArray[] = new String[theArray.length()];
-				final String dateArray[] = new String[theArray.length()];
+				final String header[] = new String[MainObject.length()];
+				final String descriptionArray[] = new String[MainObject.length()];
+				final String wallsArray[] = new String[MainObject.length()];
+				final String dateArray[] = new String[MainObject.length()];
 				try {
-					for (int i = 0; i < theArray.length(); i++) {
-						JSONObject jsonInside = theArray.getJSONObject(i);
+					for (int i = 0; i < MainObject.length(); i++) {
+						JSONObject jsonInside = MainObject.getJSONObject(i);
 						JSONObject wall = jsonInside.getJSONObject("wall");
 						JSONObject target = jsonInside.getJSONObject("target");
 						String post_id = target.getString("id");

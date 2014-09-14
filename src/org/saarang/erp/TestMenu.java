@@ -94,7 +94,7 @@ public class TestMenu extends Activity {
 			mTitle = mDrawerTitle = getTitle();
 			SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
 			int noWalls = uid.getInt("noWalls", 3);
-			String[] DrawerItems = new String[noWalls + 3];
+			String[] DrawerItems = new String[noWalls + 4];
 			DrawerItems[0] = "Notifications";
 
 			for (int i = 0; i < noWalls; i++) {
@@ -103,8 +103,9 @@ public class TestMenu extends Activity {
 				DrawerItems[i + 1] = pageName;
 				pageName = uid.getString("page_" + Integer.toString(i), "none");
 			}
-			DrawerItems[noWalls + 1] = "About";
-			DrawerItems[noWalls + 2] = "Sign out";
+			DrawerItems[noWalls + 1] = "Contacts";
+			DrawerItems[noWalls + 2] = "About";
+			DrawerItems[noWalls + 3] = "Sign out";
 
 			mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 			mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -341,7 +342,7 @@ public class TestMenu extends Activity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		finish();
+		
 	}
 
 	/* Called whenever we call invalidateOptionsMenu() */
@@ -394,14 +395,14 @@ public class TestMenu extends Activity {
 		SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
 		int noWalls = uid.getInt("noWalls", 3);
 
-		if (position == noWalls + 2) {
+		if (position == noWalls + 3) {
 			uid.edit().clear().commit();
 			// prefs
 			SharedPreferences prefs = getGCMPreferences(context);
 			prefs.edit().clear().commit();
 			Intent mainPage = new Intent(TestMenu.this, MainActivity.class);
 			startActivity(mainPage);
-		} else if (position == noWalls + 1) {
+		} else if (position == noWalls + 2) {
 			Fragment fragment = new Credits();
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
@@ -411,6 +412,19 @@ public class TestMenu extends Activity {
 			mDrawerList.setItemChecked(position, true);
 
 			setTitle("About");
+			mDrawerLayout.closeDrawer(mDrawerList);
+
+		}
+		else if (position == noWalls + 1) {
+			Fragment fragment = new Contact_groups();
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.content_frame, fragment).commit();
+
+			// update selected item and title, then close the drawer
+			mDrawerList.setItemChecked(position, true);
+
+			setTitle("Contacts");
 			mDrawerLayout.closeDrawer(mDrawerList);
 
 		}

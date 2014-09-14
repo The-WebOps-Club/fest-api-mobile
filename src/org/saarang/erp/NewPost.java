@@ -31,7 +31,11 @@ public class NewPost extends Activity {
 
 	public static String wall_id = null;
 	public static int wallNo;
-
+	protected void onPause(){
+		super.onPause();
+		finish();
+		
+		}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -113,6 +117,7 @@ public class NewPost extends Activity {
 			startActivity(open);
 
 		}
+		
 
 	}
 
