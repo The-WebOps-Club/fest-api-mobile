@@ -47,9 +47,11 @@ public class SearchResults extends Activity {
 	    ExpandableListView expListView;
 	    List<String> listDataHeader;
 	    HashMap<String, List<String>> listDataChild,listDataChild2,listDataChild3;
-	    JSONObject contact_struct;
+	    JSONObject contact_struct,dept;
 	    Context context;
+	    String searchq;
 	    List<String> SuperCoords,CoordMail,CoordTel,Subdept;
+	    int k=0;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Bundle extras = getIntent().getExtras();
@@ -57,10 +59,9 @@ public class SearchResults extends Activity {
 		ColorDrawable colorDrawable = new ColorDrawable(
 				Color.parseColor("#355088"));
 		ab.setBackgroundDrawable(colorDrawable);
-
 		setContentView(R.layout.contacts);
 		context = getApplicationContext();
-		String deptJSONasString=null,searchq=null;
+		String deptJSONasString=null; searchq=null;
 		contact_struct=null;
 		if (extras != null) {
 			deptJSONasString = extras.getString("json");
@@ -107,16 +108,21 @@ public class SearchResults extends Activity {
         expListView = (ExpandableListView) findViewById(R.id.expandableListView1);
         JSONArray mainkeys =contact_struct.names();
         int i=0;
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+        listDataChild2 = new HashMap<String, List<String>>();
+        listDataChild3 = new HashMap<String, List<String>>();
         while(i<contact_struct.length()){
 			try {
 				Log.d("Milestone",mainkeys.getString(i));
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				
 			}
 			//String repeated = new String(new char[i]).replace("\0", str);
 	
-	JSONObject dept = null;
+	//dept=null;
 	try {
 		dept = contact_struct.getJSONObject(mainkeys.getString(i));
 	} catch (JSONException e1) {
@@ -124,44 +130,55 @@ public class SearchResults extends Activity {
 		e1.printStackTrace();
 	}
 	try {
-		Log.d("Milestone",dept.getString("name"));
+		prepareListData();
+	} catch (JSONException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+	try {
+		Log.d("Milestone- DeptName",dept.getString("name"));
 	} catch (JSONException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
-	
-		i++;
+	//if(i==0)
+	//break;
+	i++;
 		}
         
         
-        
+        Log.d("PLS","WOOOOORDK");
         // preparing list data
-        try {
-			prepareListData();
-		} catch (JSONException e) {
+        //try {
+			//prepareListData();
+		//} catch (JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			//e.printStackTrace();
+		//}
  
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild,listDataChild2,listDataChild3);
- 
+        Log.d("NOOOOOOOOOOO","WOOOOORDK");
         // setting list adapter
         expListView.setAdapter(listAdapter);
+        Log.d("WHYYYYYYYYYYYYYYY","WOOOOORDK");
         for(int j=0; j < listAdapter.getGroupCount(); j++)
         	expListView.expandGroup(j);
-        
+        Log.d("dota nubs","WOOOOORDK");
 		// TODO Auto-generated method stub
 
 	}
 	/*
      * Preparing the list data
      */
-	void getUsers(JSONObject HasUserJSON,boolean type) throws JSONException{
+	boolean searchUsers(JSONObject HasUserJSON,boolean type) throws JSONException{
 		 
 		JSONObject users = HasUserJSON.getJSONObject("users");
 		JSONArray keys =users.names();
 	        JSONObject name;
 	        int i=0;
+	        type=false;
 	        while(i<users.length())
 	        {	String fullname,tel,mail;
 	        	name= users.getJSONObject(keys.getString(i));
@@ -169,22 +186,25 @@ public class SearchResults extends Activity {
 	        	mail=name.getString("email");
 	        	fullname=name.getString("first_name")+" " +name.getString("last_name");
 	        	Log.d("name",fullname);
+	        	if(fullname.toLowerCase().contains(searchq.toLowerCase())){
+        	Log.d("namefound",fullname);
 	        	CoordMail.add(mail);
 	        	CoordTel.add(tel);
-	        	if(type)
-	        	SuperCoords.add(fullname);
-	        	else
-	        		Subdept.add(fullname);
+	        	Subdept.add(fullname);
+	        	Log.d("CRASH","done");
+	        	type=true;}
+	        	
 	        	i++;
 	        }
-		
+		return type;
 	}
+	
     private void prepareListData() throws JSONException {
-        listDataHeader = new ArrayList<String>();
+/*        listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
         listDataChild2 = new HashMap<String, List<String>>();
         listDataChild3 = new HashMap<String, List<String>>();
-        // Adding child data
+  */      // Adding child data
         
         
  
@@ -192,19 +212,32 @@ public class SearchResults extends Activity {
        SuperCoords = new ArrayList<String>();
        CoordTel = new ArrayList<String>();
        CoordMail = new ArrayList<String>();
-        getUsers(contact_struct,true);
+       Subdept = new ArrayList<String>();
+        
         
         int i=0;
-        
+        Log.d("1212","done");
+        JSONObject subdepts = dept.getJSONObject("subdepts");
+        String deptname= dept.getString("name");
         //List<List<String>> group = new ArrayList<List<String>>(subdepts.length());
-        if(contact_struct.getString("name").equals("Cores"))
+        /*if(contact_struct.getString("name").equals("Cores"))
         	listDataHeader.add("Cores");
-        else
-        	listDataHeader.add("SuperCoords");
-        	 listDataChild.put(listDataHeader.get(i), SuperCoords);
-        	listDataChild2.put(listDataHeader.get(i), CoordTel);
-        	listDataChild3.put(listDataHeader.get(i), CoordMail);
-        JSONObject subdepts = contact_struct.getJSONObject("subdepts");
+        else*/
+        
+        if(searchUsers(dept,true)){
+        	if(dept.getString("name").equals("Cores"))
+            	listDataHeader.add(deptname);
+            else
+        	listDataHeader.add(deptname+" - SuperCoords");
+        	 Log.d("almost1","done");
+        	listDataChild.put(listDataHeader.get(k), Subdept);
+        	 Log.d("almost2","done");
+        	listDataChild2.put(listDataHeader.get(k), CoordTel);
+        
+        	listDataChild3.put(listDataHeader.get(k), CoordMail);
+        	k++;
+        }
+        Log.d("almost","done");
         JSONArray keys =subdepts.names();
         while(i<subdepts.length()) {
         	Subdept = new ArrayList<String>();
@@ -213,12 +246,15 @@ public class SearchResults extends Activity {
 	        JSONObject subdept;
 	        String fullname;
 	        subdept= subdepts.getJSONObject(keys.getString(i));
-        	getUsers(subdept,false);
+        	if(searchUsers(subdept,false)){
+        	Log.d("not empty?","y");
         	String subdeptname=subdept.getString("name");
-        	listDataHeader.add(subdeptname);
-        	listDataChild.put(listDataHeader.get(i+1), Subdept);
-        	listDataChild2.put(listDataHeader.get(i+1), CoordTel);
-        	listDataChild3.put(listDataHeader.get(i+1), CoordMail);
+        	listDataHeader.add(deptname+" - "+subdeptname);
+        	listDataChild.put(listDataHeader.get(k), Subdept);
+        	listDataChild2.put(listDataHeader.get(k), CoordTel);
+        	listDataChild3.put(listDataHeader.get(k), CoordMail);
+        	k++;
+        	}
         	i++;
         }
     }
