@@ -143,29 +143,14 @@ public class SearchResults extends Activity {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
-	//if(i==0)
-	//break;
 	i++;
 		}
-        
-        
-        Log.d("PLS","WOOOOORDK");
-        // preparing list data
-        //try {
-			//prepareListData();
-		//} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		//}
  
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild,listDataChild2,listDataChild3);
-        Log.d("NOOOOOOOOOOO","WOOOOORDK");
         // setting list adapter
         expListView.setAdapter(listAdapter);
-        Log.d("WHYYYYYYYYYYYYYYY","WOOOOORDK");
         for(int j=0; j < listAdapter.getGroupCount(); j++)
         	expListView.expandGroup(j);
-        Log.d("dota nubs","WOOOOORDK");
 		// TODO Auto-generated method stub
 
 	}
@@ -191,7 +176,6 @@ public class SearchResults extends Activity {
 	        	CoordMail.add(mail);
 	        	CoordTel.add(tel);
 	        	Subdept.add(fullname);
-	        	Log.d("CRASH","done");
 	        	type=true;}
 	        	
 	        	i++;
@@ -200,44 +184,30 @@ public class SearchResults extends Activity {
 	}
 	
     private void prepareListData() throws JSONException {
-/*        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
-        listDataChild2 = new HashMap<String, List<String>>();
-        listDataChild3 = new HashMap<String, List<String>>();
-  */      // Adding child data
-        
-        
- 
         // Adding child data
        SuperCoords = new ArrayList<String>();
        CoordTel = new ArrayList<String>();
        CoordMail = new ArrayList<String>();
        Subdept = new ArrayList<String>();
-        
-        
         int i=0;
         Log.d("1212","done");
         JSONObject subdepts = dept.getJSONObject("subdepts");
         String deptname= dept.getString("name");
-        //List<List<String>> group = new ArrayList<List<String>>(subdepts.length());
-        /*if(contact_struct.getString("name").equals("Cores"))
-        	listDataHeader.add("Cores");
-        else*/
         
         if(searchUsers(dept,true)){
         	if(dept.getString("name").equals("Cores"))
             	listDataHeader.add(deptname);
             else
         	listDataHeader.add(deptname+" - SuperCoords");
-        	 Log.d("almost1","done");
+        	
         	listDataChild.put(listDataHeader.get(k), Subdept);
-        	 Log.d("almost2","done");
+        	
         	listDataChild2.put(listDataHeader.get(k), CoordTel);
         
         	listDataChild3.put(listDataHeader.get(k), CoordMail);
         	k++;
         }
-        Log.d("almost","done");
+        
         JSONArray keys =subdepts.names();
         while(i<subdepts.length()) {
         	Subdept = new ArrayList<String>();
