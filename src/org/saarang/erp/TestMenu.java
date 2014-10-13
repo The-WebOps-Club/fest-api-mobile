@@ -15,9 +15,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -392,16 +394,29 @@ public class TestMenu extends Activity {
 
 		// update the main content by replacing fragments
 
-		SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
+		final SharedPreferences uid = getSharedPreferences("uid", MODE_PRIVATE);
 		int noWalls = uid.getInt("noWalls", 3);
 
 		if (position == noWalls + 3) {
-			uid.edit().clear().commit();
-			// prefs
-			SharedPreferences prefs = getGCMPreferences(context);
-			prefs.edit().clear().commit();
-			Intent mainPage = new Intent(TestMenu.this, MainActivity.class);
-			startActivity(mainPage);
+			 new AlertDialog.Builder(this)
+		        .setIcon(android.R.drawable.ic_dialog_alert)
+		        .setTitle("Signing out")
+		        .setMessage("Are you sure you want to sign out?")
+		        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		    {
+		        @Override
+		        public void onClick(DialogInterface dialog, int which) {
+		        	uid.edit().clear().commit();
+					// prefs
+					SharedPreferences prefs = getGCMPreferences(context);
+					prefs.edit().clear().commit();
+					Intent mainPage = new Intent(TestMenu.this, MainActivity.class);
+					startActivity(mainPage); 
+		        }
+		    })
+		    .setNegativeButton("No", null)
+		    .show();
+			
 		} else if (position == noWalls + 2) {
 			Fragment fragment = new Credits();
 			FragmentManager fragmentManager = getFragmentManager();

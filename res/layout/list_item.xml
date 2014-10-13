@@ -54,14 +54,18 @@
                     android:layout_width="0dp"
                     android:layout_height="50dip"
                     android:layout_weight=".2"
+                    android:background="#c4cde0"
                     android:contentDescription="Email Symbol"
                     android:paddingLeft="5dip"
                  	android:paddingRight="5dip"
-                    android:src="@drawable/mail" />
+                 	android:scaleType="fitCenter"
+                    android:src="@drawable/email" />
 
                 <ImageButton
                     android:id="@+id/call"
+                    android:background="#c4cde0"
                     android:layout_width="0dp"
+                    android:scaleType="fitCenter"
                     android:layout_height="match_parent"
                    android:layout_weight=".2"
                     android:contentDescription="Call Symbol"

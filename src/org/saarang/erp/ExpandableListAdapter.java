@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,12 +52,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
     boolean flag=false;
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(int groupPosition, int childPosition,
             boolean isLastChild, View convertView, ViewGroup parent) {
  
         String childText = (String) getChild(groupPosition, childPosition);
         final String coordMail = (String) getChild3(groupPosition, childPosition);
        final String childTel = (String) getChild2(groupPosition, childPosition);
+       //Log.d(coordMail+childTel,Integer.toString(groupPosition)+Integer.toString(childPosition));
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -69,7 +71,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(childText);
         TextView coordtel = (TextView) convertView
                 .findViewById(R.id.ECoordTel);
-        //coordtel.setText(childTel);
         ImageButton b1 = (ImageButton) convertView.findViewById(R.id.email);
         b1.setOnClickListener(new OnClickListener() {
 		public void onClick(View arg0) {
@@ -81,15 +82,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			  mailIntent.putExtra(Intent.EXTRA_SUBJECT, "Saarang:");
 			  mailIntent.putExtra(Intent.EXTRA_TEXT, "\n\n-sent from the ERP android app");
 			  _context.startActivity(mailIntent);
-			
 		}});
         ImageButton b2 = (ImageButton) convertView.findViewById(R.id.call);
         coordtel.setText("Email:"+coordMail);
         if(!childTel.isEmpty()){
         	coordtel.setText("Mob: "+childTel+"\nEmail: "+coordMail);
         	b2.setVisibility(View.VISIBLE);
-        	
         }
+        else
+        	b2.setVisibility(View.INVISIBLE);
         b2.setOnClickListener(new OnClickListener() {
 		public void onClick(View arg0) {
 			String uri = "tel:" + childTel.trim() ;

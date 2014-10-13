@@ -122,7 +122,9 @@ public class JSONParser {
 				completeUrl += paramString;
 
 				HttpGet httpGet = new HttpGet(completeUrl);
-				httpGet.setHeader("Authorization", "Token " + token);
+				Log.d("URL",completeUrl);
+				if(!completeUrl.endsWith("user_structure.json?"))
+					httpGet.setHeader("Authorization", "Token " + token);
 				HttpResponse httpResponse = httpClient.execute(httpGet);
 				HttpEntity httpEntity = httpResponse.getEntity();
 				is = httpEntity.getContent();

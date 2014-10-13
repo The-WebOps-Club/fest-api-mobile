@@ -102,24 +102,30 @@ public class WallViewFragment extends Fragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.main, menu);
 	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// handle item selection
+		boolean a=false;
+		ConnectivityManager connectivityManager = (ConnectivityManager) getActivity()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		a = activeNetworkInfo != null && activeNetworkInfo.isConnected();
 		switch (item.getItemId()) {
 		case R.id.new_post:
-			Intent newPost = new Intent("com.example.saarang2015erp.NewPost");
-			newPost.putExtra("wall_id", wallId);
-			newPost.putExtra("wallNo", wallNo);
-			startActivity(newPost);
+			if (a) {
+				Intent newPost = new Intent("com.example.saarang2015erp.NewPost");
+				newPost.putExtra("wall_id", wallId);
+				newPost.putExtra("wallNo", wallNo);
+				startActivity(newPost);
+			} else {
+				Toast.makeText(
+						getActivity(),
+						"No internet connection. Check your connection and "
+								+ "try again later", Toast.LENGTH_SHORT).show();
+			}
 			return true;
 		case R.id.refresh:
-			boolean a = false;
-			ConnectivityManager connectivityManager = (ConnectivityManager) getActivity()
-					.getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetworkInfo = connectivityManager
-					.getActiveNetworkInfo();
-			a = activeNetworkInfo != null && activeNetworkInfo.isConnected();
 			if (a) {
 				try {
 

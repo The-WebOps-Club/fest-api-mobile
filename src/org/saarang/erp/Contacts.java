@@ -54,7 +54,6 @@ public class Contacts extends Activity {
 		ColorDrawable colorDrawable = new ColorDrawable(
 				Color.parseColor("#355088"));
 		ab.setBackgroundDrawable(colorDrawable);
-
 		setContentView(R.layout.contacts);
 		context = getApplicationContext();
 		String deptJSONasString=null;
@@ -80,25 +79,7 @@ public class Contacts extends Activity {
 	}
 	@Override
 	public void onStart() {
-        
 		super.onStart();
-		boolean a = false;
-		ConnectivityManager connectivityManager = (ConnectivityManager) this
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager
-				.getActiveNetworkInfo();
-		a = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-		if (a) {
-			try {
-				//new getContacts().execute();
-			} catch (Exception e) {
-			}
-		} else {
-			Toast.makeText(
-					context,
-					"No internet connection. Check your connection and "
-							+ "try again later", Toast.LENGTH_SHORT).show();
-		}
 		// get the listview
         expListView = (ExpandableListView) findViewById(R.id.expandableListView1);
  
@@ -135,7 +116,7 @@ public class Contacts extends Activity {
 	        	tel=name.getString("mobile_number");
 	        	mail=name.getString("email");
 	        	fullname=name.getString("first_name")+" " +name.getString("last_name");
-	        	Log.d("name",fullname);
+	        	//Log.d("name",fullname);
 	        	CoordMail.add(mail);
 	        	CoordTel.add(tel);
 	        	if(type)
@@ -189,121 +170,4 @@ public class Contacts extends Activity {
         	i++;
         }
     }
-    
-    public JSONObject getContactsObj() {
-		String url = "static/json/user_structure.json";
-		// "api/mobile/walls/";
-		List<NameValuePair> paramse = new ArrayList<NameValuePair>();
-		//paramse.add(new BasicNameValuePair("limit", "30"));
-		//paramse.add(new BasicNameValuePair("offset", "0"));
-		SharedPreferences uid = this.getSharedPreferences("uid",
-				Context.MODE_PRIVATE);
-		String token = uid.getString("uid", "Aaa");
-		JSONParser jsonParser=new JSONParser();
-		JSONObject MainObject = jsonParser.makeHttpRequest(url, "GET", paramse,
-				token);
-		Log.d("Milestone","Reached Here");
-		return MainObject;
-	}
-    
-	/* class getContacts extends AsyncTask<String, String, String> {
-		private ProgressDialog pDialog;
-		JSONObject MainObject;
-		JSONParser jsonParser = new JSONParser();
-		int status;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			pDialog = new ProgressDialog(getActivity());
-			pDialog.setMessage("Loading");
-			pDialog.setIndeterminate(false);
-			pDialog.setCancelable(true);
-			pDialog.show();
-		}
-
-		
-		@Override
-		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			// String url = "http://10.0.2.2:80/JSON/wall.php";
-			String url = "static/json/user_structure.json";
-			// "api/mobile/walls/";
-			List<NameValuePair> paramse = new ArrayList<NameValuePair>();
-			//paramse.add(new BasicNameValuePair("limit", "30"));
-			//paramse.add(new BasicNameValuePair("offset", "0"));
-			SharedPreferences uid = getActivity().getSharedPreferences("uid",
-					Context.MODE_PRIVATE);
-			String token = uid.getString("uid", "Aaa");
-			MainObject = jsonParser.makeHttpRequest(url, "GET", paramse,
-					token);
-			Log.d("Milestone","Reached Here");
-			return null;
-		}
-
-		/*protected void onPostExecute(String file_url) {
-			pDialog.dismiss();
-			final String id[] = new String[MainObject.length()];
-			if (true) {
-				final String header[] = new String[MainObject.length()];
-				final String descriptionArray[] = new String[MainObject.length()];
-				final String wallsArray[] = new String[MainObject.length()];
-				final String dateArray[] = new String[MainObject.length()];
-				final String DeptNameArray[] = new String[MainObject.length()+2];
-				try {
-					for (int i = 0; i < MainObject.length()+2; i++) {
-						if(MainObject.has(Integer.toString(i))==false)
-							break;							;
-						JSONObject jsonInside = MainObject.getJSONObject(Integer.toString(i));
-						JSONObject subDepts= jsonInside.getJSONObject("subdepts");
-						JSONObject target = jsonInside.getJSONObject("target");
-						//String post_id = target.getString("id");
-						String DeptName = jsonInside.getString("name");
-						//JSONObject actor = jsonInside.getJSONObject("actor");
-						//String actorName = actor.getString("name");
-						//String verb = jsonInside.getString("verb");
-						//String timeStamp = jsonInside.getString("timestamp");
-						//String description = jsonInside
-						//		.getString("description");
-						//header[i] = "<b>" + actorName + "</b>" + " " + verb
-						//		+ " " + "<b>" + wallName + "</b> ";
-						//Date date = null;
-						DeptNameArray[i]=DeptName;
-						//descriptionArray[i] = description;
-						//id[i] = post_id;
-						//wallsArray[i] = wallName;
-					}
-
-					NotificationList adapter = new NotificationList(
-							getActivity(), header, descriptionArray, dateArray);
-					ListView list = (ListView) getView().findViewById(
-							R.id.listView1);
-					list.setAdapter(adapter);
-					/*list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-						@Override
-						public void onItemClick(AdapterView<?> parent,
-								View view, int position, long useless_id) {
-
-							Intent i = new Intent(getActivity(), PostView.class);
-							i.putExtra("post_id", id[+position]);
-							i.putExtra("WallName", wallsArray[+position]);
-							i.putExtra("passed", "notif");
-							startActivity(i);
-							// Toast.makeText(getActivity(), "You Clicked at " +
-							// header[+ position], Toast.LENGTH_SHORT).show();
-
-						}
-					});*/
-/*
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-
-		}
-
-	}*/
-
 }
