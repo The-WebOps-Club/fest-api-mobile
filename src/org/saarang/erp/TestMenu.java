@@ -231,7 +231,7 @@ public class TestMenu extends Activity {
 					}
 					Log.d("Sending req. to GCM", "here");
 					regid = gcm.register(SENDER_ID);
-					Log.d("go it", regid);
+					Log.d("got it", regid);
 					msg = "Device registered, registration ID=" + regid;
 
 					// You should send the registration ID to your server over

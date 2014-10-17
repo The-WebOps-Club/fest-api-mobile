@@ -14,10 +14,9 @@
         <EditText
             android:id="@+id/editText1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:ems="10" >
-
+            android:ems="10">
             <requestFocus />
         </EditText>
 
@@ -28,9 +27,8 @@
             android:layout_weight="1"
             android:text="Search" 
             android:background="@drawable/button1"
-            android:minHeight="20dip"
-            android:padding="10dp"
-             android:textColor="@android:color/black"
+           
+             android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"/>
 
     </LinearLayout>

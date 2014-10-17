@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -118,17 +119,33 @@ public class Contact_groups extends Fragment {
 		int i=0;
 		JSONArray keys =contact_struct.names();
 		Button myButton[] = new Button[contact_struct.length()];
+		JSONObject coresJSON = null;
+		while(i<contact_struct.length()){
+			try {
+				coresJSON=contact_struct.getJSONObject(keys.getString(i));
+				if(coresJSON.getString("name").equals("Cores")){
+					break;
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			i++;
+		}
+		i=0;
+		final String coresString=coresJSON.toString();
 		while(i<contact_struct.length()){
 			//String repeated = new String(new char[i]).replace("\0", str);
 	
 	JSONObject dept = null;
 	myButton[i]=new Button(getActivity());
 	myButton[i].setId(i);
+	View empty=new View(getActivity());
 	try {
 		dept = contact_struct.getJSONObject(keys.getString(i));
 		Log.d("Milestone",keys.getString(i)+dept.getString("name"));
 			myButton[i].setText(dept.getString("name"));
-			//myButton[i].setTextColor(Color.parseColor("white"));
+			myButton[i].setTextColor(Color.parseColor("white"));
 			myButton[i].setBackgroundResource(R.drawable.button1);
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 			        LayoutParams.WRAP_CONTENT,      
@@ -146,16 +163,18 @@ public class Contact_groups extends Fragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
 
 	LinearLayout ll = (LinearLayout)getView().findViewById(R.id.LinLayout);
 	LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 	ll.addView(myButton[i], lp);
+	lp = new LayoutParams(LayoutParams.MATCH_PARENT, 5);
+	ll.addView(empty,lp);
 	final String deptString=dept.toString();
 	myButton[i].setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View v) {
 	    	Intent contactview = new Intent(getActivity(), Contacts.class);
 			contactview.putExtra("json",deptString);
+			contactview.putExtra("cores_json",coresString);
 			startActivity(contactview);
 	    
 	    }
@@ -169,6 +188,7 @@ public class Contact_groups extends Fragment {
 		    	Intent searchr = new Intent(getActivity(), SearchResults.class);
 		    	searchr.putExtra("searchq",searchq.getText().toString());
 		    	searchr.putExtra("json",contact_struct.toString());
+		    	searchr.putExtra("cores_json",coresString);
 				startActivity(searchr);
 		    
 		    }
@@ -176,10 +196,7 @@ public class Contact_groups extends Fragment {
 		
 
 	}
-	
-	
-	
-	
+
 	class loadContacts extends AsyncTask<String, String, String> {
 		SharedPreferences uid;
 		int status;
@@ -190,7 +207,7 @@ public class Contact_groups extends Fragment {
 			pDialog = new ProgressDialog(getActivity());
 			pDialog.setMessage("Loading...");
 			pDialog.setIndeterminate(false);
-			pDialog.setCancelable(false);
+			pDialog.setCancelable(true);
 			pDialog.show();
 		}
 
@@ -230,7 +247,9 @@ public class Contact_groups extends Fragment {
 			// dismiss the dialog once product deleted
 			pDialog.dismiss();
 			if (status == 1) {
-				DisplayContacts(contact_struct);
+				getActivity().recreate();
+				//recreates activity and loads from saved preferences
+				//tried to call DisplayContacts(contact_struct); but it would add a bunch of buttons without removing the old ones
 		}
 
 	}
@@ -245,7 +264,7 @@ public class Contact_groups extends Fragment {
 			pDialog = new ProgressDialog(getActivity());
 			pDialog.setMessage("Loading...");
 			pDialog.setIndeterminate(false);
-			pDialog.setCancelable(false);
+			pDialog.setCancelable(true);
 			pDialog.show();
 		}
 		@Override
@@ -258,7 +277,6 @@ public class Contact_groups extends Fragment {
 				String jsonString = uid.getString("contactJSON",
 						"none");
 				JSONObject json = new JSONObject(jsonString);
-				//MainObject = json.getJSONArray("data");
 				status = 1;
 				contact_struct=json;
 			} catch (Exception e) {

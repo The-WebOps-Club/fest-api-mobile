@@ -5,6 +5,14 @@
     android:background="#c4cde0"
     android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/found_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Sorry, no results found."
+        android:gravity="center"
+        android:visibility="gone" />
+	
     <ExpandableListView
         android:id="@+id/expandableListView1"
         android:layout_width="match_parent"
